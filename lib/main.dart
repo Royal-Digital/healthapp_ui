@@ -1,7 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-import 'utils.dart';
+import 'utisl.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,10 +9,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(        
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter UI'),
     );
   }
 }
@@ -29,117 +27,219 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-
- 
-
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      
-      body: SingleChildScrollView(  
-        child: Container(
-          
-          width: MediaQuery.of(context).size.width,
-          color: mainBackgroundColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            
+      backgroundColor: mainBgColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            alignment: AlignmentDirectional.topCenter,
+            overflow: Overflow.visible,
             children: <Widget>[
-              Stack(
-                
-                alignment: Alignment.topCenter,
-          overflow: Overflow.visible,
-                children: <Widget>[
-                  _backCover(),
-                  _greetings(),
-                  _bottomHolder(),
-                ],
-
-              ),
+              _backBgCover(),
+              _greetings(),
+              _moodsHolder(context),
             ],
           ),
-        ),   
-        
+          SizedBox(
+            height: 50.0,
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  _notificationCard(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _nextAppointment(),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  _appoinmentCard(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-       
     );
   }
 
-  Container _backCover() {
-    return Container(
-                  padding: EdgeInsets.all(20.0),
-                  height: 250.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40.0),
-                      bottomRight: Radius.circular(40.0)
-                      ),    
-                     gradient: LinearGradient(
-                       colors: <Color>[
-                       mainC,midC,lightC,
-                     ],
-                     stops: [0.0,0.5,0.9],
-                     begin: Alignment.centerLeft,
-                     end: Alignment.centerRight,
-                     ),
-                  ),
-                  
-                   
-                  
-                
-
-                );
+  Positioned _moodsHolder(BuildContext context) {
+    return Positioned(
+      bottom: -45,
+      child: Container(
+        height: 100.0,
+        width: MediaQuery.of(context).size.width - 40,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(28)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                spreadRadius: 5.5,
+                blurRadius: 5.5,
+              )
+            ]),
+      ),
+    );
   }
 
-  Positioned _greetings(){
-return Positioned(
-  left: 20,
-  bottom: 80,
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        'Hi Dan',
-        style: TextStyle(
-          fontSize: 36,
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-          
+  Container _backBgCover() {
+    return Container(
+      height: 260.0,
+      decoration: BoxDecoration(
+        gradient: purpleGradient,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40),
         ),
       ),
-      SizedBox(height: 6.0,),
-      Text(
-        'How are you feeling today ?',
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.white70,
-          fontWeight: FontWeight.w300,
-        ),
-      )
-    ],
-  ),
-  );
-
+    );
   }
 
-  Positioned _bottomHolder(){
+  Positioned _greetings() {
     return Positioned(
-      left: 10,
-      right: 10,
-      top: 200,
+      left: 20,
+      bottom: 90,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Hi Dan',
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'How are you feeling today ?',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w300,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-      child: Container(
-        height: 100,
-        decoration: BoxDecoration(
+  Row _nextAppointment() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          'Your Next Appointment',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+        Text(
+          'See All',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: midColor,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Container _appoinmentCard() {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Color(0xFFD9D9D9),
+                radius: 30.0,
+              ),
+              Text('Dr Dan Mlayah FX'),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Divider(
+            color: Colors.grey[200],
+            height: 3,
+            thickness: 1,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _notificationCard() {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        gradient: redGradient,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        leading: Icon(
+          Icons.calendar_today,
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: [BoxShadow(
-            color: Colors.black87,
-            spreadRadius: 5,
-          )]
+          size: 18,
+        ),
+        title: Text(
+          'Your Visit with \n Dr Kyecera',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        trailing: OutlineButton(
+          onPressed: () {},
+          color: Colors.transparent,
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)
+          ),
+          child: Text(
+            'Review & Add Notes',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
